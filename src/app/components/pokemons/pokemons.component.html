@@ -1,0 +1,143 @@
+<!-- <div class="container">
+    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="getPaginatorData($event)" aria-label="Select page">
+    </mat-paginator>
+</div> -->
+<div class="container">
+    <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-12 mx-auto" *ngFor="let item of pokemons">
+            <mat-card class="poke-card mt-4 mb-1 text-light" *ngIf="item?.length != 0">
+                <mat-card-header>
+                    <img mat-card-avatar class="poke-ball"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/768px-Pok%C3%A9_Ball_icon.svg.png"
+                        alt="Poke Ball">
+                    <mat-card-title>{{item?.name | titlecase}}</mat-card-title>
+                    <mat-card-subtitle class="text-secondary">
+                        <mat-chip-list aria-label="Fish selection">
+                            <ng-container *ngFor="let type of getTypesOfPokemon(item)">
+                                <span class="badge rounded-pill fw-normal me-2" [ngClass]="type">{{type}}</span>
+                            </ng-container>
+                        </mat-chip-list>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <div class="text-center">
+                    <img [src]="getPokemonImage(item?.sprites)" width="150" height="150">
+                </div>
+                <mat-card-content style="font-size: 13px;">
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-5">HP</div>
+                                <div class="col-5 d-flex align-items-center">
+                                    <mat-progress-bar class="green-progress"
+                                        style="height: 8px; border-radius: 2px; box-shadow: 0 0 2px white;"
+                                        mode="determinate" [value]="item?.stats[0].base_stat * 100 / maxStats.hp">
+                                    </mat-progress-bar>
+                                </div>
+                                <div class="col-2 ps-0">{{item?.stats[0].base_stat}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">Attack</div>
+                                <div class="col-5 d-flex align-items-center">
+                                    <mat-progress-bar color="warn"
+                                        style="height: 8px; border-radius: 2px; box-shadow: 0px 0px 2px white"
+                                        mode="determinate" [value]="item?.stats[1].base_stat * 100 / maxStats.attack">
+                                    </mat-progress-bar>
+                                </div>
+                                <div class="col-2 ps-0">{{item?.stats[1].base_stat}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">Defense</div>
+                                <div class="col-5 d-flex align-items-center">
+                                    <mat-progress-bar color="primary"
+                                        style="height: 8px; border-radius: 2px; box-shadow: 0px 0px 2px white"
+                                        mode="determinate" [value]="item?.stats[2].base_stat * 100 / maxStats.defense">
+                                    </mat-progress-bar>
+                                </div>
+                                <div class="col-2 ps-0">{{item?.stats[2].base_stat}}</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-5 pe-0">Speed</div>
+                                <div class="col-5 d-flex align-items-center">
+                                    <mat-progress-bar class="blue-progress"
+                                        style="height: 8px; border-radius: 2px; box-shadow: 0px 0px 2px white"
+                                        mode="determinate" [value]="item?.stats[5].base_stat * 100 / maxStats.speed">
+                                    </mat-progress-bar>
+                                </div>
+                                <div class="col-2 ps-0">{{item?.stats[5].base_stat}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 pe-0">Sp. Atk</div>
+                                <div class="col-5 d-flex align-items-center">
+                                    <mat-progress-bar class="red-progress"
+                                        style="height: 8px; border-radius: 2px; box-shadow: 0px 0px 2px white"
+                                        mode="determinate"
+                                        [value]="item?.stats[3].base_stat * 100 / maxStats.special_attack">
+                                    </mat-progress-bar>
+                                </div>
+                                <div class="col-2 ps-0">{{item?.stats[3].base_stat}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 pe-0  text-wrap">Sp. Def</div>
+                                <div class="col-5 d-flex align-items-center">
+                                    <mat-progress-bar class="purple-progress"
+                                        style="height: 8px; border-radius: 2px; box-shadow: 0px 0px 2px white"
+                                        mode="determinate"
+                                        [value]="item?.stats[4].base_stat * 100 / maxStats.special_defense">
+                                    </mat-progress-bar>
+                                </div>
+                                <div class="col-2 ps-0">{{item?.stats[4].base_stat}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+                <mat-card-footer class="pb-3">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <button class=" btn btn-sm btn-outline-warning"
+                                (click)="convertHeight(item?.height/10, $event)">{{item?.height/10}} m</button>
+                        </div>
+                        <div class="col-4 px-0">
+                            <button class="btn btn-sm btn-outline-info"
+                                (click)="convertWeight(item?.weight/10, $event)">{{item?.weight/10}} kgs</button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-sm btn-outline-danger">{{item?.base_experience}} XP</button>
+                        </div>
+                    </div>
+                </mat-card-footer>
+            </mat-card>
+        </div>
+    </div>
+    <div class="row py-4">
+        <mat-paginator color="primary" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+            (page)="getPaginatorData($event)" aria-label="Select page">
+        </mat-paginator>
+    </div>
+</div>
+
+<!-- <div class="container poke-card h-25 align-items-center d-flex justify-content-center">
+    <span class="badge rounded-pill fw-normal m-2 normal">normal</span>
+    <span class="badge rounded-pill fw-normal m-2 fighting">fighting</span>
+    <span class="badge rounded-pill fw-normal m-2 flying">flying</span>
+    <span class="badge rounded-pill fw-normal m-2 poison">poison</span>
+    <span class="badge rounded-pill fw-normal m-2 ground">ground</span>
+    <span class="badge rounded-pill fw-normal m-2 rock">rock</span>
+    <span class="badge rounded-pill fw-normal m-2 bug">bug</span>
+    <span class="badge rounded-pill fw-normal m-2 ghost">ghost</span>
+    <span class="badge rounded-pill fw-normal m-2 steel">steel</span>
+    <span class="badge rounded-pill fw-normal m-2 fire">fire</span><br>
+    <span class="badge rounded-pill fw-normal m-2 water">water</span>
+    <span class="badge rounded-pill fw-normal m-2 grass">grass</span>
+    <span class="badge rounded-pill fw-normal m-2 electric">electric</span>
+    <span class="badge rounded-pill fw-normal m-2 psychic">psychic</span>
+    <span class="badge rounded-pill fw-normal m-2 ice">ice</span>
+    <span class="badge rounded-pill fw-normal m-2 dragon">dragon</span>
+    <span class="badge rounded-pill fw-normal m-2 dark">dark</span>
+    <span class="badge rounded-pill fw-normal m-2 fairy">fairy</span>
+    <span class="badge rounded-pill fw-normal m-2 unknown">unknown</span>
+    <span class="badge rounded-pill fw-normal m-2 shadow">shadow</span>
+</div>
+<div class="h-25"></div> -->
