@@ -11,6 +11,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatPaginatorModule,
     MatCardModule,
     MatChipsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -23,7 +23,7 @@ export class PokemonsComponent {
     special_attack: 194,
     special_defense: 250,
     speed: 200
-  }
+  };
 
   constructor(private pokeApi$: PokeApiService) {
     this.loadPokeData(this.pageSize);
@@ -50,7 +50,7 @@ export class PokemonsComponent {
             }
           );
         }
-        console.log(this.pokemons);
+        // console.log(this.pokemons);
       },
       err => {
         console.log(err);
